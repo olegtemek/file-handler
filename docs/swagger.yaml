@@ -1,0 +1,127 @@
+basePath: /v1
+definitions:
+  model.File:
+    properties:
+      filepath:
+        type: string
+      id:
+        type: integer
+      tag:
+        type: string
+      timespamp:
+        type: string
+    type: object
+  response.FileCreate:
+    properties:
+      file:
+        $ref: '#/definitions/model.File'
+      status:
+        type: integer
+    type: object
+  response.FileDelete:
+    properties:
+      file:
+        $ref: '#/definitions/model.File'
+      status:
+        type: integer
+    type: object
+  response.FileGetAll:
+    properties:
+      files:
+        items:
+          $ref: '#/definitions/model.File'
+        type: array
+      status:
+        type: integer
+    type: object
+info:
+  contact: {}
+  title: File-Handler Backend
+  version: "1.0"
+paths:
+  /file:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Tag
+        in: query
+        name: q
+        type: string
+      - description: Filename
+        in: query
+        name: q
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FileGetAll'
+      summary: getAll
+      tags:
+      - file
+    post:
+      consumes:
+      - multipart/form-data
+      parameters:
+      - description: File
+        in: formData
+        name: file
+        required: true
+        type: file
+      - description: tag name
+        in: formData
+        name: tag
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FileCreate'
+      summary: create
+      tags:
+      - file
+  /file/{id}:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: Tag
+        in: path
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FileDelete'
+      summary: delete
+      tags:
+      - file
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FileGetAll'
+      summary: getOne
+      tags:
+      - file
+swagger: "2.0"
