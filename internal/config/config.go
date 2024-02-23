@@ -13,7 +13,7 @@ type Config struct {
 	DatabaseUrl string        `env:"DATABASE_URL"`
 }
 
-func NewConfig() (*Config, error) {
+func New() (*Config, error) {
 	var cfg Config
 	err := cleanenv.ReadConfig(".env", &cfg)
 

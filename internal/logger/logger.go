@@ -7,7 +7,7 @@ import (
 	"github.com/olegtemek/file-handler/internal/config"
 )
 
-func NewLogger(cfg *config.Config) *slog.Logger {
+func New(cfg *config.Config) *slog.Logger {
 
 	var logger *slog.Logger
 

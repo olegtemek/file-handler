@@ -20,15 +20,14 @@ import (
 
 // @BasePath /v1
 func main() {
-	cfg, err := config.NewConfig()
+	cfg, err := config.New()
 	if err != nil {
 		panic("Cannot config file")
 	}
 
-	log := logger.NewLogger(cfg)
+	log := logger.New(cfg)
 
 	db, err := db.NewPostgresConnect(log, cfg)
-	defer db.Close()
 	if err != nil {
 		panic("Cannot connect to database")
 	}

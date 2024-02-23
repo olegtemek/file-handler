@@ -39,8 +39,20 @@ services:
     command: ["-path", "./migrations", "-database",  "$DATABASE_MIGRATION_URL", "up", "1" ]
     networks:
         - file_handler_network
-
-
+  backend:
+    container_name: backend
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    build: 
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - file_handler_network
+      
 networks:
   file_handler_network:
     name: file_handler_network
