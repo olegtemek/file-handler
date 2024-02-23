@@ -46,9 +46,9 @@ func (h *Handler) Init() *http.Server {
 
 	h.Handler.Mount("/swagger", httpSwagger.WrapHandler)
 
-	// fs := http.FileServer(http.Dir("static"))
+	fs := http.FileServer(http.Dir("uploads"))
 
-	// h.Handler.Handle("/uploads/*", http.StripPrefix("/uploads/", fs))
+	h.Handler.Handle("/uploads/*", http.StripPrefix("/uploads/", fs))
 
 	h.InitAllRoutes()
 
