@@ -34,6 +34,22 @@ definitions:
       status:
         type: integer
     type: object
+  response.FileGetAllTags:
+    properties:
+      status:
+        type: integer
+      tags:
+        items:
+          type: string
+        type: array
+    type: object
+  response.FileGetOne:
+    properties:
+      file:
+        $ref: '#/definitions/model.File'
+      status:
+        type: integer
+    type: object
 info:
   contact: {}
   title: File-Handler Backend
@@ -46,11 +62,7 @@ paths:
       parameters:
       - description: Tag
         in: query
-        name: q
-        type: string
-      - description: Filename
-        in: query
-        name: q
+        name: tag
         type: string
       produces:
       - application/json
@@ -120,8 +132,22 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/response.FileGetAll'
+            $ref: '#/definitions/response.FileGetOne'
       summary: getOne
+      tags:
+      - file
+  /file/tags:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.FileGetAllTags'
+      summary: getAllTags
       tags:
       - file
 swagger: "2.0"

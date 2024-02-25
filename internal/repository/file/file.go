@@ -48,9 +48,6 @@ func (fr *Repository) GetAll(params map[string]string) ([]*model.File, error) {
 		if key == "tag" {
 			whereClause += fmt.Sprintf(" AND %s = '%s'", key, value)
 		}
-		if key == "filepath" {
-			whereClause += fmt.Sprintf(" AND %s = '%s'", key, value)
-		}
 	}
 
 	if whereClause != "" {
@@ -78,6 +75,33 @@ func (fr *Repository) GetAll(params map[string]string) ([]*model.File, error) {
 	}
 
 	return files, nil
+}
+
+func (fr *Repository) GetAllTags() ([]*string, error) {
+	fr.log = fr.log.With(slog.String("Source", "FileRepository:GetAllTags"))
+
+	tags := []*string{}
+
+	q := `SELECT DISTINCT tag FROM File`
+
+	fr.log.Info("", slog.String("DB QUERY", q))
+	rows, err := fr.db.Query(context.Background(), q)
+
+	if err != nil {
+		return tags, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var tag string
+		err := rows.Scan(&tag)
+		if err != nil {
+			return nil, err
+		}
+		tags = append(tags, &tag)
+	}
+
+	return tags, nil
 }
 
 func (fr *Repository) Delete(id string) (*model.File, error) {

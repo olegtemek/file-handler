@@ -13,6 +13,7 @@ type FileRepository interface {
 	GetAll(params map[string]string) ([]*model.File, error)
 	GetOne(id string) (*model.File, error)
 	Delete(id string) (*model.File, error)
+	GetAllTags() ([]*string, error)
 }
 
 type Repository struct {

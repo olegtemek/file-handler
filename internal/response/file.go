@@ -11,6 +11,10 @@ type FileGetAll struct {
 	Files  []*model.File `json:"files"`
 	Status int           `json:"status"`
 }
+type FileGetAllTags struct {
+	Tags   []*string `json:"tags"`
+	Status int       `json:"status"`
+}
 
 type FileDelete struct {
 	*model.File `json:"file"`

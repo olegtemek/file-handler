@@ -42,6 +42,17 @@ func (s *Service) GetAll(params map[string]string) ([]*model.File, error) {
 
 	return files, nil
 }
+func (s *Service) GetAllTags() ([]*string, error) {
+	s.log = s.log.With(slog.String("Source", "FileService:GetAllTags"))
+
+	tags, err := (*s.repository).GetAllTags()
+	if err != nil {
+		s.log.Error("Cannot get tags", err)
+		return tags, err
+	}
+
+	return tags, nil
+}
 
 func (s *Service) Delete(id string) (*model.File, error) {
 	s.log = s.log.With(slog.String("Source", "FileService:Delete"))

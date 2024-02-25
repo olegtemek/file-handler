@@ -31,13 +31,7 @@ const docTemplate = `{
                     {
                         "type": "string",
                         "description": "Tag",
-                        "name": "q",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filename",
-                        "name": "q",
+                        "name": "tag",
                         "in": "query"
                     }
                 ],
@@ -87,6 +81,28 @@ const docTemplate = `{
                 }
             }
         },
+        "/file/tags": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "file"
+                ],
+                "summary": "getAllTags",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.FileGetAllTags"
+                        }
+                    }
+                }
+            }
+        },
         "/file/{id}": {
             "get": {
                 "consumes": [
@@ -112,7 +128,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/response.FileGetAll"
+                            "$ref": "#/definitions/response.FileGetOne"
                         }
                     }
                 }
@@ -195,6 +211,31 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/model.File"
                     }
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "response.FileGetAllTags": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "response.FileGetOne": {
+            "type": "object",
+            "properties": {
+                "file": {
+                    "$ref": "#/definitions/model.File"
                 },
                 "status": {
                     "type": "integer"

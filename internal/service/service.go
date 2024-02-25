@@ -13,6 +13,7 @@ type FileService interface {
 	GetAll(params map[string]string) ([]*model.File, error)
 	GetOne(id string) (*model.File, error)
 	Delete(str string) (*model.File, error)
+	GetAllTags() ([]*string, error)
 }
 
 type Service struct {

@@ -85,16 +85,12 @@ func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
 // @Tags file
 // @Accept json
 // @Produce json
-// @Param q query string false "Tag"
-// @Param q query string false "Filename"
+// @Param tag query string false "Tag"
 // @Success 200 {object} response.FileGetAll
 // @Router /file [get]
 func (h *Handler) GetAll(w http.ResponseWriter, r *http.Request) {
 	params := make(map[string]string)
 
-	if r.URL.Query().Get("filepath") != "" {
-		params["filepath"] = r.URL.Query().Get("filepath")
-	}
 	if r.URL.Query().Get("tag") != "" {
 		params["tag"] = r.URL.Query().Get("tag")
 	}
@@ -111,12 +107,33 @@ func (h *Handler) GetAll(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// @Summary getAllTags
+// @Tags file
+// @Accept json
+// @Produce json
+// @Success 200 {object} response.FileGetAllTags
+// @Router /file/tags [get]
+func (h *Handler) GetAllTags(w http.ResponseWriter, r *http.Request) {
+
+	tags, err := (*h.service).GetAllTags()
+
+	if err != nil {
+		response.NewError(&w, r, fmt.Errorf("cannot get tags from db. %w", err), 400)
+		return
+	}
+
+	render.JSON(w, r, &response.FileGetAllTags{
+		Status: 200,
+		Tags:   tags,
+	})
+}
+
 // @Summary getOne
 // @Tags file
 // @Accept json
 // @Produce json
 // @Param id path string true "id"
-// @Success 200 {object} response.FileGetAll
+// @Success 200 {object} response.FileGetOne
 // @Router /file/{id} [get]
 func (h *Handler) GetOne(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")

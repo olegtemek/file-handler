@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 	_ "github.com/olegtemek/file-handler/docs"
 	"github.com/olegtemek/file-handler/internal/config"
 	"github.com/olegtemek/file-handler/internal/delivery/rest/file"
@@ -19,6 +20,7 @@ type FileHandler interface {
 	GetOne(w http.ResponseWriter, r *http.Request)
 	Delete(w http.ResponseWriter, r *http.Request)
 	GetAll(w http.ResponseWriter, r *http.Request)
+	GetAllTags(w http.ResponseWriter, r *http.Request)
 }
 
 type Handler struct {
@@ -43,6 +45,10 @@ func (h *Handler) Init() *http.Server {
 	h.Handler.Use(middleware.URLFormat)
 	h.Handler.Use(middleware.Recoverer)
 	h.Handler.Use(logger.New(h.Log))
+	h.Handler.Use(cors.Handler(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{"POST", "GET", "DELETE"},
+	}))
 
 	h.Handler.Mount("/swagger", httpSwagger.WrapHandler)
 
@@ -69,6 +75,7 @@ func (h *Handler) InitAllRoutes() {
 		v1.Route("/file", func(r chi.Router) {
 			r.Post("/", h.FileHandler.Create)
 			r.Get("/", h.FileHandler.GetAll)
+			r.Get("/tags", h.FileHandler.GetAllTags)
 			r.Get("/{id}", h.FileHandler.GetOne)
 			r.Delete("/{id}", h.FileHandler.Delete)
 		})

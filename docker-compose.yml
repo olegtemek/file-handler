@@ -49,6 +49,8 @@ services:
     build: 
       context: .
       dockerfile: ./Dockerfile
+    volumes:
+      - ./uploads:/uploads
     ports:
       - "8000:8000"
     networks:
