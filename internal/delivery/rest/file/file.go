@@ -148,7 +148,7 @@ func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 
 	id := chi.URLParam(r, "id")
 
-	file, err := (*h.service).Delete(id)
+	deletedFile, err := (*h.service).Delete(id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			response.NewError(&w, r, fmt.Errorf("file not found. %w", err), 404)
@@ -158,8 +158,14 @@ func (h *Handler) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	err = file.DeleteFile(deletedFile.FilePath)
+	if err != nil {
+		response.NewError(&w, r, fmt.Errorf("cannot delete file from storage %w", err), 400)
+		return
+	}
+
 	render.JSON(w, r, &response.FileDelete{
 		Status: 200,
-		File:   file,
+		File:   deletedFile,
 	})
 }

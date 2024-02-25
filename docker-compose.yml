@@ -39,6 +39,7 @@ services:
     command: ["-path", "./migrations", "-database",  "$DATABASE_MIGRATION_URL", "up", "1" ]
     networks:
         - file_handler_network
+        
   backend:
     container_name: backend
     depends_on:

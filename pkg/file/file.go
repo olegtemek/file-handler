@@ -19,3 +19,13 @@ func SaveFile(file *multipart.File, handler *multipart.FileHeader) (string, erro
 	io.Copy(f, *file)
 	return filepath, nil
 }
+
+func DeleteFile(filepath string) error {
+
+	err := os.Remove(filepath)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

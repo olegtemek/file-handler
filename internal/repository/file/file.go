@@ -38,7 +38,9 @@ func (fr *Repository) Create(filepath string, tag string) (*model.File, error) {
 func (fr *Repository) GetAll(params map[string]string) ([]*model.File, error) {
 	fr.log = fr.log.With(slog.String("Source", "FileRepository:GetAll"))
 
-	var files []*model.File
+	// var files []*model.File
+
+	files := []*model.File{}
 
 	whereClause := ""
 

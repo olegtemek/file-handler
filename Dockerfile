@@ -16,6 +16,8 @@ FROM alpine AS runner
 
 COPY --from=builder /usr/local/src/bin/file-handler /
 COPY --from=builder /usr/local/src/.env /
+COPY --from=builder /usr/local/src/migrations /migrations
+COPY --from=builder /usr/local/src/uploads /uploads
 
 CMD ["/file-handler"]
 EXPOSE 8000
