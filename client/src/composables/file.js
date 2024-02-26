@@ -2,22 +2,22 @@ export const UseFile = ()=>{
 
 
   const getTags = async () => {
-    const req = await fetch(`${import.meta.env.VITE_API_URL}/v1/file/tags`, { method: 'GET' })
-    const data = await req.json()
+    const req = await fetch(`/api/v1/file/tags`, { method: 'GET' });
+    const data = await req.json();
     return data.tags
   }
   const getFilesByTag = async (tag) => {
-    const req = await fetch(`${import.meta.env.VITE_API_URL}/v1/file?tag=${tag}`, { method: 'GET' })
-    const data = await req.json()
+    const req = await fetch(`/api/v1/file?tag=${tag}`, { method: 'GET' });
+    const data = await req.json();
 
     return data.files
   }
 
 
   const getText = async (filepath) =>{
-    const req =  await fetch(`${import.meta.env.VITE_API_URL}/${filepath}`, {method:"GET"})
+    const req =  await fetch(`/api/${filepath}`, {method:"GET"});
     
-    const data = await req.text()
+    const data = await req.text();
 
     if (data == ""){
       return "Nothing...."
@@ -27,9 +27,9 @@ export const UseFile = ()=>{
     
   }
   const remove = async (id) =>{
-    const req =  await fetch(`${import.meta.env.VITE_API_URL}/v1/file/${id}`, {method:"DELETE"})
+    const req =  await fetch(`/api/v1/file/${id}`, {method:"DELETE"});
     
-    const data = await req.json()
+    const data = await req.json();
 
     if(data.status == 200){
       return true

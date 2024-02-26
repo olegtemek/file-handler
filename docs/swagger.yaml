@@ -8,7 +8,7 @@ definitions:
         type: integer
       tag:
         type: string
-      timespamp:
+      timestamp:
         type: string
     type: object
   response.FileCreate:

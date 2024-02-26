@@ -22,7 +22,7 @@ services:
     volumes:
       - ./.docker/pgadmin:/var/lib/pgadmin
     ports:
-      - "8001:80"
+      - "8002:80"
     networks:
       - file_handler_network
     restart: unless-stopped
@@ -53,6 +53,21 @@ services:
       - ./uploads:/uploads
     ports:
       - "8000:8000"
+    networks:
+      - file_handler_network
+  
+  frontend:
+    container_name: frontend
+    depends_on:
+      - backend
+    env_file:
+      - .env
+    build: 
+      context: ./client
+      dockerfile: ./Dockerfile
+    command: "npm run preview"
+    ports:
+      - "8080:4173"
     networks:
       - file_handler_network
       

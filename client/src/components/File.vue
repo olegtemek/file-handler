@@ -50,7 +50,7 @@ const getText = async (index) => {
     delete file.text
     return
   }
-  let text = await useFile.getText(file.filepath)
+  const text = await useFile.getText(file.filepath)
   files.value[index].text = text
 }
 

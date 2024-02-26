@@ -176,7 +176,7 @@ const docTemplate = `{
                 "tag": {
                     "type": "string"
                 },
-                "timespamp": {
+                "timestamp": {
                     "type": "string"
                 }
             }
